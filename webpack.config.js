@@ -1,31 +1,15 @@
-const path = require('path');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
-const MiniCSSextractPlugin = require('mini-css-extract-plugin');
-var babel = require("babel-core");
-module.exports = {
-    module: {
-      rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader',
-            options: {
-              presets: ['babel-preset-env']
-            },
-        },
-        {
-            test: /\.css$/,
-            use: [
-                MiniCSSextractPlugin.loader,
-                'css-loader'
-          ] 
-        }
-      ]
-    },
-    plugins: [
-        new HtmlWebPackPlugin({
-            template: './src/index.html',
-        }),
-        new MiniCSSextractPlugin()
-    ]
+const { merge } = require('webpack-merge');
+const commonConfig = require('./webpack.common.config.js');
+
+const productionConfig = require('./webpack.production.config.js');
+
+const developmentConfig = require('./webpack.development.config.js');
+
+module.exports = function (evn) {
+  if (evn.developmet) {
+      return merge(commonConfig, developmentConfig);
+  }
+  else {
+    return merge(commonConfig, productionConfig);
+  } 
 }
