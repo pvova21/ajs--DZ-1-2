@@ -1,3 +1,3 @@
-import result from './app.js';
+import { Character } from './domain';
 import './style.css';
 
